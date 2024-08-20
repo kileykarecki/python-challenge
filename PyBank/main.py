@@ -1,19 +1,23 @@
 #import modules
 import csv
-import statistics
 import os
 
+#import statistics module to assist with math
+import statistics
+
+#create path
 csvpath = os.path.join(r"C:\Users\kiley\OneDrive\Desktop\Module Challenges\Module 3 Challenge\python-challenge\PyBank\Resources\budget_data.csv")
 
 # variables
 total_months = 0
 total_volume = 0
-previous_profit = None
+previous_profit = 0
 greatest_increase_profits = 0
 best_month = ''
 greatest_decrease_profits = 0
 worst_month = ''
-monthToMonthChange = []
+
+month_to_month = []
 
 #open the file
 with open(csvpath, newline='') as csvfile:
@@ -27,20 +31,20 @@ with open(csvpath, newline='') as csvfile:
         total_volume += current_profit
 
         if previous_profit is not None:
-            monthlyChange = current_profit - previous_profit
-            monthToMonthChange.append(monthlyChange)
+            monthly_change = current_profit - previous_profit
+            month_to_month.append(monthly_change)
 
-            if monthlyChange > greatest_increase_profits:
-                greatest_increase_profits = monthlyChange
+            if monthly_change > greatest_increase_profits:
+                greatest_increase_profits = monthly_change
                 best_month = row[0]
 
-            if monthlyChange < greatest_decrease_profits:
-                greatest_decrease_profits = monthlyChange
+            if monthly_change < greatest_decrease_profits:
+                greatest_decrease_profits = monthly_change
                 worst_month = row[0]
 
         previous_profit = current_profit
 
-averageChange = statistics.mean(monthToMonthChange) if monthToMonthChange else 0
+averageChange = statistics.mean(month_to_month) if month_to_month else 0
 
 # Print the analysis to the terminal
 print("Financial Analysis")
