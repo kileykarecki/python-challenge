@@ -3,11 +3,17 @@ import os
 import csv
 
 # Variables
-votes = 0  # To count the total votes
-candidates = {}  # To store vote counts per candidate
+votes = 0 
+candidates = {} 
 
-# Setting path for the csv file
-csvpath = os.path.join("Resources", "election_data.csv")
+# Setting path for the csv file (Option 1: Raw String Literal)
+#csvpath = os.path.join(r"C:\Users\kiley\OneDrive\Desktop\Module Challenges\Module 3 Challenge\python-challenge\PyPoll\Resources\election_data.csv")
+
+# Alternatively, Option 2: Escape Backslashes
+# csvpath = os.path.join("C:\\Users\\kiley\\OneDrive\\Desktop\\Module Challenges\\Module 3 Challenge\\python-challenge\\PyPoll\\Resources\\election_data.csv")
+
+# Alternatively, Option 3: Use Forward Slashes
+csvpath = os.path.join("C:/Users/kiley/OneDrive/Desktop/Module Challenges/Module 3 Challenge/python-challenge/PyPoll/Resources/election_data.csv")
 
 # Open the file
 with open(csvpath) as csvfile:
@@ -40,3 +46,23 @@ winner = max(candidates, key=candidates.get)
 
 # Print winner
 print(f"Winner: {winner}")
+
+# Exporting results to a text file
+output_dir = os.path.join("C:\\Users\\kiley\\OneDrive\\Desktop\\Module Challenges\\Module 3 Challenge\\python-challenge\\PyPoll\\analysis")
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Exporting results to a text file
+output_path = os.path.join(output_dir, "analysis.txt")
+with open(output_path, "w") as txtfile:
+    txtfile.write("Election Results\n")
+    txtfile.write("----------------------------\n")
+    txtfile.write("Total Votes: " + str(votes) + "\n")
+    txtfile.write("----------------------------\n")
+    for candidate, vote_count in candidates.items():
+        vote_percentage = (vote_count / votes) * 100
+        txtfile.write(f"{candidate}: {vote_percentage:.3f}%   ({vote_count})\n")
+    txtfile.write("----------------------------\n")
+    txtfile.write(f"Winner: {winner}\n")
+
+print(f"Results have been written to {output_path}")
